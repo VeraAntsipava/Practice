@@ -17,6 +17,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -25,10 +26,11 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
+    QVBoxLayout *verticalLayout;
     QLineEdit *inputLineEdit;
     QPushButton *calculateButton;
-    QLabel *resultLabel;
     QLabel *suggestionLabel;
+    QLabel *resultLabel;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,18 +41,29 @@ public:
         MainWindow->resize(800, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
+        verticalLayout = new QVBoxLayout(centralwidget);
+        verticalLayout->setObjectName("verticalLayout");
+        verticalLayout->setContentsMargins(25, 25, 25, 25);
         inputLineEdit = new QLineEdit(centralwidget);
         inputLineEdit->setObjectName("inputLineEdit");
-        inputLineEdit->setGeometry(QRect(120, 50, 113, 21));
+
+        verticalLayout->addWidget(inputLineEdit);
+
         calculateButton = new QPushButton(centralwidget);
         calculateButton->setObjectName("calculateButton");
-        calculateButton->setGeometry(QRect(120, 90, 100, 32));
-        resultLabel = new QLabel(centralwidget);
-        resultLabel->setObjectName("resultLabel");
-        resultLabel->setGeometry(QRect(130, 160, 271, 16));
+
+        verticalLayout->addWidget(calculateButton);
+
         suggestionLabel = new QLabel(centralwidget);
         suggestionLabel->setObjectName("suggestionLabel");
-        suggestionLabel->setGeometry(QRect(130, 130, 281, 16));
+
+        verticalLayout->addWidget(suggestionLabel);
+
+        resultLabel = new QLabel(centralwidget);
+        resultLabel->setObjectName("resultLabel");
+
+        verticalLayout->addWidget(resultLabel);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -69,8 +82,8 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         calculateButton->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\321\207\320\270\321\201\320\273\320\270\321\202\321\214", nullptr));
-        resultLabel->setText(QCoreApplication::translate("MainWindow", "\320\240\320\265\320\267\321\203\320\273\321\214\321\202\320\260\321\202", nullptr));
         suggestionLabel->setText(QCoreApplication::translate("MainWindow", "\320\227\320\275\320\260\321\207\320\265\320\275\320\270\320\265", nullptr));
+        resultLabel->setText(QCoreApplication::translate("MainWindow", "\320\240\320\265\320\267\321\203\320\273\321\214\321\202\320\260\321\202", nullptr));
     } // retranslateUi
 
 };
