@@ -1,24 +1,31 @@
-QT       += core gui widgets testlib
 
-CONFIG += c++17
+QT += core gui testlib
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-# Имя исполняемого файла
-TARGET = BracketCalc
-TEMPLATE = app
+CONFIG += c++17 testcase
 
-# Все файлы лежат в одной папке
-SOURCES += main.cpp \
-           core_logic.cpp \
-           factory.cpp \
-           presenter.cpp \
-           mainwindow.cpp
+INCLUDEPATH += \
+    src/common \
+    src/core \
+    src/factory \
+    src/presentation \
+    src/ui \
+    tests
 
-HEADERS += interfaces.h \
-           core_logic.h \
-           factory.h \
-           interfaces.h \
-           presenter.h \
-           mainwindow.h \
-           tests.h
+SOURCES += \
+    src/main.cpp \
+    src/core/core_logic.cpp \
+    src/factory/factory.cpp \
+    src/presentation/presenter.cpp \
+    src/ui/mainwindow.cpp
 
-FORMS   += mainwindow.ui
+HEADERS += \
+    src/common/interfaces.h \
+    src/core/core_logic.h \
+    src/factory/factory.h \
+    src/presentation/presenter.h \
+    src/ui/mainwindow.h \
+    tests/tests.h
+
+FORMS += \
+    src/ui/mainwindow.ui

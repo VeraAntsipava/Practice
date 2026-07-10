@@ -6,9 +6,7 @@
 #include <cctype>
 #include <cmath>
 
-// ============================================================================
-// 1. РЕАЛИЗАЦИЯ ВАЛИДАТОРА (Умное автоисправление скобок на лету)
-// ============================================================================
+
 ValidationResult BracketValidator::validate(const std::string& expression) {
     std::vector<char> temp;
     std::vector<int> openBracketIndices;
@@ -22,21 +20,16 @@ ValidationResult BracketValidator::validate(const std::string& expression) {
             temp.push_back(ch);
         } else if (ch == ')' || ch == ']' || ch == '}') {
             if (openBracketIndices.empty()) {
-                // СЛУЧАЙ 12+3): Обнаружена лишняя закрывающая скобка
                 isValid = false;
                 if (errorMsg.empty()) errorMsg = "Лишняя закрывающая скобка";
-
-                // Вместо удаления, балансируем выражение: вставляем открывающую пару в начало строки
                 char expectedOpen = (ch == ')') ? '(' : (ch == ']' ? '[' : '{');
                 temp.insert(temp.begin(), expectedOpen);
 
-                // КРИТИЧЕСКИ ВАЖНО: Так как мы вставили символ в начало,
-                // все сохраненные индексы открытых скобок в векторе сдвинулись на +1
                 for (size_t k = 0; k < openBracketIndices.size(); ++k) {
                     openBracketIndices[k]++;
                 }
 
-                // Теперь спокойно добавляем саму закрывающую скобку в текущую позицию
+
                 temp.push_back(ch);
             } else {
                 int lastOpenIdx = openBracketIndices.back();
@@ -48,7 +41,7 @@ ValidationResult BracketValidator::validate(const std::string& expression) {
                 if (ch != expectedClose) {
                     isValid = false;
                     if (errorMsg.empty()) errorMsg = "Несовпадение типов скобок";
-                    temp.push_back(expectedClose); // Заменяем на правильную пару
+                    temp.push_back(expectedClose);
                 } else {
                     temp.push_back(ch);
                 }
@@ -58,17 +51,15 @@ ValidationResult BracketValidator::validate(const std::string& expression) {
         }
     }
 
-    // Обработка незакрытых скобок в конце строки (например, 12+3( или (12+3 )
+
     if (!openBracketIndices.empty()) {
         isValid = false;
         if (errorMsg.empty()) errorMsg = "Не все скобки закрыты";
 
-        // Идем с конца вектора индексов, чтобы безопасно удалять/добавлять элементы
         for (int i = openBracketIndices.size() - 1; i >= 0; --i) {
             int idx = openBracketIndices[i];
             bool hasContent = false;
 
-            // Проверяем, есть ли какой-то полезный текст/числа после этой скобки
             for (size_t k = idx + 1; k < temp.size(); ++k) {
                 if (temp[k] != '(' && temp[k] != '[' && temp[k] != '{') {
                     hasContent = true;
@@ -77,11 +68,9 @@ ValidationResult BracketValidator::validate(const std::string& expression) {
             }
 
             if (hasContent) {
-                // Если внутри что-то есть (например, "(12+3"), добавляем закрывающую в конец
                 char open = temp[idx];
                 temp.push_back((open == '(') ? ')' : (open == '[' ? ']' : '}'));
             } else {
-                // Если она пустая на самом конце (например, "12+3("), просто стираем её
                 temp.erase(temp.begin() + idx);
             }
         }
@@ -95,10 +84,6 @@ ValidationResult BracketValidator::validate(const std::string& expression) {
     return {false, errorMsg, corrected};
 }
 
-// ============================================================================
-// 2. РЕАЛИЗАЦИЯ КАЛЬКУЛЯТОРА (Алгоритм Дейкстры / ОПЗ)
-// ============================================================================
-
 static int getPrecedence(char op) {
     if (op == '+' || op == '-') return 1;
     if (op == '*' || op == '/') return 2;
@@ -110,13 +95,12 @@ static double applyOperation(double a, double b, char op) {
     case '+': return a + b;
     case '-': return a - b;
     case '*': return a * b;
-    case '/': return (b != 0) ? a / b : 0; // Защита от деления на 0
+    case '/': return (b != 0) ? a / b : 0;
     }
     return 0;
 }
 
 double SimpleCalculator::calculate(const std::string& expression) {
-    // Нормализация строки (приводим все скобки к круглым, убираем пробелы)
     std::string expr = "";
     for (char c : expression) {
         if (c == '[' || c == '{') expr += '(';
@@ -155,7 +139,6 @@ double SimpleCalculator::calculate(const std::string& expression) {
             if (!ops.empty() && ops.top() == '(') ops.pop();
         }
         else if (expr[i] == '+' || expr[i] == '-' || expr[i] == '*' || expr[i] == '/') {
-            // Проверка на унарный плюс/минус
             if (expr[i] == '-' || expr[i] == '+') {
                 bool isUnary = false;
                 if (i == 0) isUnary = true;
@@ -167,7 +150,7 @@ double SimpleCalculator::calculate(const std::string& expression) {
                 }
                 if (isUnary) {
                     if (expr[i] == '-') {
-                        values.push(0); // Превращаем "-X" в "0 - X"
+                        values.push(0);
                     } else {
                         continue;
                     }
@@ -200,9 +183,6 @@ double SimpleCalculator::calculate(const std::string& expression) {
     return values.empty() ? 0 : values.top();
 }
 
-// ============================================================================
-// 3. РЕАЛИЗАЦИЯ ДЕКОРАТОРА (Логирование)
-// ============================================================================
 double LoggingCalculator::calculate(const std::string& expression) {
     std::cout << "[LOG]: Начинаем вычисление выражения: " << expression << std::endl;
     double res = CalculatorDecorator::calculate(expression);

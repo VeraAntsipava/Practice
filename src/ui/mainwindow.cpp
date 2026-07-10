@@ -1,4 +1,3 @@
-// mainwindow.cpp
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -6,17 +5,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    // Фиксируем размер для идеальной верстки
     this->setWindowTitle("MathEngine Ultra");
     this->setFixedSize(460, 340);
 
     presenter = std::make_unique<ExpressionPresenter>(this);
 
-    // Применяем ультра-премиальный QSS-стиль с оранжевым Ambient Glow
-    // Применяем ультра-премиальный QSS-стиль с оранжевым Ambient Glow и матовыми кнопками
-    // Применяем полностью матовый премиальный QSS-стиль (БЕЗ синих обводок)
+
     this->setStyleSheet(
-        /* 1. Фон окна: глубокий синий + размытая четверть оранжевого круга в углу */
+        /* Фон */
         "#centralwidget {"
         "   background: qradialgradient(cx: 1.0, cy: 0.0, radius: 1.2, fx: 1.0, fy: 0.0, "
         "                               stop: 0.0 rgba(255, 100, 0, 0.25), "
@@ -25,26 +21,27 @@ MainWindow::MainWindow(QWidget *parent)
         "                               stop: 1.0 #0A0E1A);"
         "}"
 
-        /* 2. Поле ввода: матовое стекло (БЕЗ синей рамки при клике) */
+        /* 2. Поле ввода с матовым стеклом */
         "QLineEdit {"
         "   background-color: rgba(255, 255, 255, 0.03);"
-        "   border: 1px solid rgba(255, 255, 255, 0.08);" // Тонкая матовая грань по умолчанию
+        "   border: 1px solid rgba(255, 255, 255, 0.08);"
         "   border-radius: 12px;"
         "   padding: 14px 16px;"
         "   color: #FFFFFF;"
         "   font-size: 16px;"
         "   font-family: '-apple-system', 'SF Pro Display', 'Helvetica Neue', sans-serif;"
         "}"
-        /* Эффект при клике на поле ввода: мягкое белое свечение вместо синего */
+
+        /* Мягкое белое свечение */
         "QLineEdit:focus {"
-        "   border: 1px solid rgba(255, 255, 255, 0.25);" // Граница становится четче и светлее
-        "   background-color: rgba(255, 255, 255, 0.06);"  // Стекло внутри слегка светлеет
+        "   border: 1px solid rgba(255, 255, 255, 0.25);"
+        "   background-color: rgba(255, 255, 255, 0.06);"
         "}"
 
-        /* 3. Кнопка: Эффект матового стекла (БЕЗ синей обводки) */
+        /* Эффект матового стекла */
         "QPushButton {"
-        "   background-color: rgba(255, 255, 255, 0.06);" // Полупрозрачная матовая дымка
-        "   border: 1px solid rgba(255, 255, 255, 0.12);" // Имитация тонкого ребра стекла
+        "   background-color: rgba(255, 255, 255, 0.06);"
+        "   border: 1px solid rgba(255, 255, 255, 0.12);"
         "   border-radius: 12px;"
         "   color: #FFFFFF;"
         "   font-size: 15px;"
@@ -52,24 +49,26 @@ MainWindow::MainWindow(QWidget *parent)
         "   font-family: '-apple-system', 'SF Pro Text', sans-serif;"
         "   padding: 12px;"
         "}"
+
         /* Эффект при наведении на кнопку */
         "QPushButton:hover {"
-        "   background-color: rgba(255, 255, 255, 0.12);"  // Матовое стекло наполняется светом
-        "   border: 1px solid rgba(255, 255, 255, 0.25);"  // Ребро подсвечивается ярче
+        "   background-color: rgba(255, 255, 255, 0.12);"
+        "   border: 1px solid rgba(255, 255, 255, 0.25);"
         "}"
+
         /* Эффект при клике на кнопку */
         "QPushButton:pressed {"
-        "   background-color: rgba(255, 255, 255, 0.03);"  // Плавное затухание при нажатии
+        "   background-color: rgba(255, 255, 255, 0.03);"
         "   border: 1px solid rgba(255, 255, 255, 0.08);"
         "}"
 
-        /* 4. Общие настройки текста */
+        /* Настройки текста */
         "QLabel {"
         "   font-family: '-apple-system', 'SF Pro Text', sans-serif;"
         "   color: #FFFFFF;"
         "}"
 
-        /* 5. Подложки для вывода результатов и ошибок */
+        /* Подложки */
         "#resultLabel, #suggestionLabel {"
         "   background-color: rgba(255, 255, 255, 0.02);"
         "   border: 1px solid rgba(255, 255, 255, 0.04);"
@@ -78,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
         "}"
         );
 
-    // Скрываем виджеты при старте
+    //Скрываем виджеты при старте
     ui->resultLabel->hide();
     ui->suggestionLabel->hide();
 }
@@ -89,13 +88,12 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_calculateButton_clicked() {
     std::string expr = ui->inputLineEdit->text().toStdString();
-    presenter->onProcessExpression(expr); // Отправляем в презентер
+    presenter->onProcessExpression(expr);
 }
 
 void MainWindow::showResult(const std::string& result) {
     ui->resultLabel->show();
 
-    // Результат крупно и чисто белым цветом
     ui->resultLabel->setText(QString::fromStdString(
         "<div>"
         "  <span style='color: rgba(255, 255, 255, 0.4); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;'>Результат вычислений</span><br>"
@@ -114,7 +112,6 @@ void MainWindow::showError(const std::string& error, const std::string& suggesti
 
     ui->suggestionLabel->show();
 
-    // Никакого красного цвета, только минималистичное "Исправлено: " белыми буквами
     ui->suggestionLabel->setText(QString::fromStdString(
         "<div style='font-size: 13px; color: #FFFFFF; font-family: sans-serif;'>"
         "   <span>Исправлено: </span>"

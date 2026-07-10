@@ -1,4 +1,3 @@
-// mainwindow.h
 #pragma once
 #include <QMainWindow>
 #include "interfaces.h"
@@ -14,12 +13,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    // Реализация интерфейса ICalcView
     void showResult(const std::string& result) override;
     void showError(const std::string& error, const std::string& suggestion) override;
 
 private slots:
-    void on_calculateButton_clicked(); // Паттерн Observer (Сигнал кнопки -> Слот)
+    void on_calculateButton_clicked(); //Паттерн Observer
 
 private:
     Ui::MainWindow *ui;

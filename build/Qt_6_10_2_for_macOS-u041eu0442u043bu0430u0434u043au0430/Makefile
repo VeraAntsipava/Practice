@@ -17,7 +17,7 @@ CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefau
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_TESTLIB_LIB -DQT_CORE_LIB -DQT_TESTCASE_BUILDDIR='"/Users/veria/BracketCalc/build/Qt_6_10_2_for_macOS-u041eu0442u043bu0430u0434u043au0430"'
 CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -mmacosx-version-min=13 -Wall -Wextra $(DEFINES)
 CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -mmacosx-version-min=13 -Wall -Wextra $(DEFINES)
-INCPATH       = -I../../../BracketCalc -I. -I../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers -I../../../Qt/6.10.2/macos/lib/QtGui.framework/Headers -I../../../Qt/6.10.2/macos/lib/QtTest.framework/Headers -I../../../Qt/6.10.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I../../../Qt/6.10.2/macos/mkspecs/macx-clang -F/Users/veria/Qt/6.10.2/macos/lib
+INCPATH       = -I../../../BracketCalc -I. -I../../src/common -I../../src/core -I../../src/factory -I../../src/presentation -I../../src/ui -I../../tests -I../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers -I../../../Qt/6.10.2/macos/lib/QtGui.framework/Headers -I../../../Qt/6.10.2/macos/lib/QtTest.framework/Headers -I../../../Qt/6.10.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I../../../Qt/6.10.2/macos/mkspecs/macx-clang -F/Users/veria/Qt/6.10.2/macos/lib
 QMAKE         = /Users/veria/Qt/6.10.2/macos/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -52,11 +52,11 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../main.cpp \
-		../../core_logic.cpp \
-		../../factory.cpp \
-		../../presenter.cpp \
-		../../mainwindow.cpp moc_mainwindow.cpp \
+SOURCES       = ../../src/main.cpp \
+		../../src/core/core_logic.cpp \
+		../../src/factory/factory.cpp \
+		../../src/presentation/presenter.cpp \
+		../../src/ui/mainwindow.cpp moc_mainwindow.cpp \
 		moc_tests.cpp
 OBJECTS       = main.o \
 		core_logic.o \
@@ -291,6 +291,7 @@ DIST          = /Qt/6.10.2/macos/mkspecs/features/spec_pre.prf \
 		/Qt/6.10.2/macos/mkspecs/features/default_post.prf \
 		/Qt/6.10.2/macos/mkspecs/features/mac/default_post.prf \
 		/Qt/6.10.2/macos/mkspecs/features/mac/objective_c.prf \
+		/Qt/6.10.2/macos/mkspecs/features/testcase.prf \
 		/Qt/6.10.2/macos/mkspecs/features/qml_debug.prf \
 		/Qt/6.10.2/macos/mkspecs/features/mac/mac.prf \
 		/Qt/6.10.2/macos/mkspecs/features/warn_on.prf \
@@ -311,17 +312,16 @@ DIST          = /Qt/6.10.2/macos/mkspecs/features/spec_pre.prf \
 		/Qt/6.10.2/macos/mkspecs/features/exceptions.prf \
 		/Qt/6.10.2/macos/mkspecs/features/yacc.prf \
 		/Qt/6.10.2/macos/mkspecs/features/lex.prf \
-		../../../../BracketCalc.pro ../../interfaces.h \
-		../../core_logic.h \
-		../../factory.h \
-		../../interfaces.h \
-		../../presenter.h \
-		../../mainwindow.h \
-		../../tests.h ../../main.cpp \
-		../../core_logic.cpp \
-		../../factory.cpp \
-		../../presenter.cpp \
-		../../mainwindow.cpp
+		../../../../BracketCalc.pro ../../src/common/interfaces.h \
+		../../src/core/core_logic.h \
+		../../src/factory/factory.h \
+		../../src/presentation/presenter.h \
+		../../src/ui/mainwindow.h \
+		../../tests/tests.h ../../src/main.cpp \
+		../../src/core/core_logic.cpp \
+		../../src/factory/factory.cpp \
+		../../src/presentation/presenter.cpp \
+		../../src/ui/mainwindow.cpp
 QMAKE_TARGET  = BracketCalc
 DESTDIR       = 
 TARGET        = BracketCalc.app/Contents/MacOS/BracketCalc
@@ -572,6 +572,7 @@ Makefile: ../../BracketCalc.pro ../../../Qt/6.10.2/macos/mkspecs/features/spec_p
 		../../../Qt/6.10.2/macos/mkspecs/features/default_post.prf \
 		../../../Qt/6.10.2/macos/mkspecs/features/mac/default_post.prf \
 		../../../Qt/6.10.2/macos/mkspecs/features/mac/objective_c.prf \
+		../../../Qt/6.10.2/macos/mkspecs/features/testcase.prf \
 		../../../Qt/6.10.2/macos/mkspecs/features/qml_debug.prf \
 		../../../Qt/6.10.2/macos/mkspecs/features/mac/mac.prf \
 		../../../Qt/6.10.2/macos/mkspecs/features/warn_on.prf \
@@ -824,6 +825,7 @@ Makefile: ../../BracketCalc.pro ../../../Qt/6.10.2/macos/mkspecs/features/spec_p
 ../../../Qt/6.10.2/macos/mkspecs/features/default_post.prf:
 ../../../Qt/6.10.2/macos/mkspecs/features/mac/default_post.prf:
 ../../../Qt/6.10.2/macos/mkspecs/features/mac/objective_c.prf:
+../../../Qt/6.10.2/macos/mkspecs/features/testcase.prf:
 ../../../Qt/6.10.2/macos/mkspecs/features/qml_debug.prf:
 ../../../Qt/6.10.2/macos/mkspecs/features/mac/mac.prf:
 ../../../Qt/6.10.2/macos/mkspecs/features/warn_on.prf:
@@ -873,9 +875,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../interfaces.h ../../core_logic.h ../../factory.h ../../interfaces.h ../../presenter.h ../../mainwindow.h ../../tests.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../core_logic.cpp ../../factory.cpp ../../presenter.cpp ../../mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../src/common/interfaces.h ../../src/core/core_logic.h ../../src/factory/factory.h ../../src/presentation/presenter.h ../../src/ui/mainwindow.h ../../tests/tests.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../src/main.cpp ../../src/core/core_logic.cpp ../../src/factory/factory.cpp ../../src/presentation/presenter.cpp ../../src/ui/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../src/ui/mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -885,7 +887,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r BracketCalc.app
-	-$(DEL_FILE) .qmake.stash
+	-$(DEL_FILE) /Users/veria/BracketCalc/build/Qt_6_10_2_for_macOS-u041eu0442u043bu0430u0434u043au0430/target_wrapper.sh .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -894,11 +896,12 @@ distclean: clean
 xcodeproj:
 	@$(QMAKE) -spec macx-xcode "$(EXPORT__PRO_FILE_)" -spec macx-clang CONFIG+=debug CONFIG+=qml_debug
 
+check: first
+	/Users/veria/BracketCalc/build/Qt_6_10_2_for_macOS-u041eu0442u043bu0430u0434u043au0430/target_wrapper.sh $(TESTRUNNER) ./$(QMAKE_TARGET).app/Contents/MacOS/$(QMAKE_TARGET) $(TESTARGS)
+
 mocclean: compiler_moc_header_clean compiler_moc_objc_header_clean compiler_moc_source_clean
 
 mocables: compiler_moc_header_make_all compiler_moc_objc_header_make_all compiler_moc_source_make_all
-
-check: first
 
 benchmark: first
 
@@ -907,20 +910,20 @@ compiler_rcc_clean:
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_tests.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp moc_tests.cpp
-moc_mainwindow.cpp: ../../mainwindow.h \
+moc_mainwindow.cpp: ../../src/ui/mainwindow.h \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		../../interfaces.h \
-		../../presenter.h \
+		../../src/common/interfaces.h \
+		../../src/presentation/presenter.h \
 		../../../Qt/6.10.2/macos/libexec/moc
-	/Users/veria/Qt/6.10.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/veria/Qt/6.10.2/macos/mkspecs/macx-clang -I/Users/veria/BracketCalc -I/Users/veria/Qt/6.10.2/macos/lib/QtWidgets.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtGui.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtTest.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/veria/Qt/6.10.2/macos/lib ../../mainwindow.h -o moc_mainwindow.cpp
+	/Users/veria/Qt/6.10.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/veria/Qt/6.10.2/macos/mkspecs/macx-clang -I/Users/veria/BracketCalc -I/Users/veria/BracketCalc/src/common -I/Users/veria/BracketCalc/src/core -I/Users/veria/BracketCalc/src/factory -I/Users/veria/BracketCalc/src/presentation -I/Users/veria/BracketCalc/src/ui -I/Users/veria/BracketCalc/tests -I/Users/veria/Qt/6.10.2/macos/lib/QtWidgets.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtGui.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtTest.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/veria/Qt/6.10.2/macos/lib ../../src/ui/mainwindow.h -o moc_mainwindow.cpp
 
-moc_tests.cpp: ../../tests.h \
-		../../interfaces.h \
-		../../presenter.h \
-		../../core_logic.h \
+moc_tests.cpp: ../../tests/tests.h \
+		../../src/common/interfaces.h \
+		../../src/presentation/presenter.h \
+		../../src/core/core_logic.h \
 		../../../Qt/6.10.2/macos/libexec/moc
-	/Users/veria/Qt/6.10.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/veria/Qt/6.10.2/macos/mkspecs/macx-clang -I/Users/veria/BracketCalc -I/Users/veria/Qt/6.10.2/macos/lib/QtWidgets.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtGui.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtTest.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/veria/Qt/6.10.2/macos/lib ../../tests.h -o moc_tests.cpp
+	/Users/veria/Qt/6.10.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/veria/Qt/6.10.2/macos/mkspecs/macx-clang -I/Users/veria/BracketCalc -I/Users/veria/BracketCalc/src/common -I/Users/veria/BracketCalc/src/core -I/Users/veria/BracketCalc/src/factory -I/Users/veria/BracketCalc/src/presentation -I/Users/veria/BracketCalc/src/ui -I/Users/veria/BracketCalc/tests -I/Users/veria/Qt/6.10.2/macos/lib/QtWidgets.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtGui.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtTest.framework/Headers -I/Users/veria/Qt/6.10.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/veria/Qt/6.10.2/macos/lib ../../tests/tests.h -o moc_tests.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -929,9 +932,9 @@ compiler_moc_source_clean:
 compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
-ui_mainwindow.h: ../../mainwindow.ui \
+ui_mainwindow.h: ../../src/ui/mainwindow.ui \
 		../../../Qt/6.10.2/macos/libexec/uic
-	/Users/veria/Qt/6.10.2/macos/libexec/uic ../../mainwindow.ui -o ui_mainwindow.h
+	/Users/veria/Qt/6.10.2/macos/libexec/uic ../../src/ui/mainwindow.ui -o ui_mainwindow.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -945,38 +948,38 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: ../../main.cpp ../../mainwindow.h \
+main.o: ../../src/main.cpp ../../src/ui/mainwindow.h \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		../../interfaces.h \
-		../../presenter.h \
-		../../tests.h \
-		../../core_logic.h \
+		../../src/common/interfaces.h \
+		../../src/presentation/presenter.h \
+		../../tests/tests.h \
+		../../src/core/core_logic.h \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/QApplication \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/qapplication.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../src/main.cpp
 
-core_logic.o: ../../core_logic.cpp ../../core_logic.h \
-		../../interfaces.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o core_logic.o ../../core_logic.cpp
+core_logic.o: ../../src/core/core_logic.cpp ../../src/core/core_logic.h \
+		../../src/common/interfaces.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o core_logic.o ../../src/core/core_logic.cpp
 
-factory.o: ../../factory.cpp ../../factory.h \
-		../../interfaces.h \
-		../../core_logic.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o factory.o ../../factory.cpp
+factory.o: ../../src/factory/factory.cpp ../../src/factory/factory.h \
+		../../src/common/interfaces.h \
+		../../src/core/core_logic.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o factory.o ../../src/factory/factory.cpp
 
-presenter.o: ../../presenter.cpp ../../presenter.h \
-		../../interfaces.h \
-		../../factory.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o presenter.o ../../presenter.cpp
+presenter.o: ../../src/presentation/presenter.cpp ../../src/presentation/presenter.h \
+		../../src/common/interfaces.h \
+		../../src/factory/factory.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o presenter.o ../../src/presentation/presenter.cpp
 
-mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
+mainwindow.o: ../../src/ui/mainwindow.cpp ../../src/ui/mainwindow.h \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../Qt/6.10.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		../../interfaces.h \
-		../../presenter.h \
+		../../src/common/interfaces.h \
+		../../src/presentation/presenter.h \
 		ui_mainwindow.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../src/ui/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
@@ -986,9 +989,20 @@ moc_tests.o: moc_tests.cpp
 
 ####### Install
 
-install:  FORCE
+install_target: first FORCE
+	@test -d $(INSTALL_ROOT)/Users/veria/Qt/6.10.2/macos/tests/BracketCalc || mkdir -p $(INSTALL_ROOT)/Users/veria/Qt/6.10.2/macos/tests/BracketCalc
+	$(DEL_FILE) -r $(INSTALL_ROOT)/Users/veria/Qt/6.10.2/macos/tests/BracketCalc/BracketCalc.app
+	
+	$(QINSTALL) BracketCalc.app $(INSTALL_ROOT)/Users/veria/Qt/6.10.2/macos/tests/BracketCalc/BracketCalc.app
 
-uninstall:  FORCE
+uninstall_target: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/Users/veria/Qt/6.10.2/macos/tests/BracketCalc/BracketCalc.app
+	-$(DEL_DIR) $(INSTALL_ROOT)/Users/veria/Qt/6.10.2/macos/tests/BracketCalc/ 
+
+
+install: install_target  FORCE
+
+uninstall: uninstall_target  FORCE
 
 FORCE:
 
